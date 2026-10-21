@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>航天任务档案馆</title>
+        <link rel="stylesheet" th:href="@{/Website.css}">
+    </head>
+    <body>
+        <h1>航天任务档案馆</h1>
+        <form th:action="@{/search}" method="get">
+            <input type="text" name="keyword" th:value="${keyword}" placeholder="搜索...">
+            <button type="submit">搜索</button>
+        </form>
+        <p th:if="${result != null and !result.isEmpty()}" th:text="'总任务数：' + ${total}"></p>
+        <p th:if="${result != null and !result.isEmpty()}" th:text="'成功任务数：' + ${success}"></p>
+        <p th:if="${result != null and !result.isEmpty()}" th:text="'失败任务数：' + ${fail}"></p>
+        <p th:if="${result != null and !result.isEmpty()}" th:text="'成功率：' + ${rate}"></p>
+        <table th:if="${result != null and !result.isEmpty()}">
+            <tr><td>编号</td><td>任务</td><td>国家</td><td>时间</td><td>结果</td></tr>
+            <!-- <tr th:each="r:${result}">
+                <td th:text="${r.id}"></td>
+                <td th:text="${r.name}"></td>
+                <td th:text="${r.country}"></td>
+                <td th:text="${r.date}"></td>
+                <td th:text="${r.result}"></td>
+            </tr> -->
+            <tr th:each="r:${result}" class="item">
+                <td th:text="${r.id}"></td>
+                <td th:text="${r.name}"></td>
+                <td th:text="${r.country}"></td>
+                <td th:text="${r.date}"></td>
+                <td th:text="${r.result}" th:classappend="${r.result == '成功' ? 'success' : 'fail'}"></td>
+            </tr>
+        </table>
+        <p th:if="${result == null or result.isEmpty()}">没有找到任务</p>
+    </body>
+</html>
