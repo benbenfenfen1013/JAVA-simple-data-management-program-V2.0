@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="${title}">任务编辑器</title>
+        <link rel="stylesheet" th:href="@{/Website.css}">
+    </head>
+    <body>
+        <h1 th:text="${title}">创建新任务</h1>
+        <form th:action="@{/save}" method="post" name="edition">
+            <input type="hidden" name="id" th:value="${id}">
+
+            <label for="name">任务名：</label>
+            <input type="text" name="name" th:value="${mission?.name}">
+            <label for="country">国家：</label>
+            <input type="text" name="country" th:value="${mission?.country}">
+            <label for="date">日期：</label>
+            <input type="text" name="date" th:value="${mission?.date}">
+            <label for="result">结果：</label>
+            <select id="result" name="result">
+                <option value="成功" th:selected="${mission?.result == '成功'}">成功</option>
+                <option value="失败" th:selected="${mission?.result == '失败'}">失败</option>
+            </select>
+
+            <button type="submit">确认</button>
+        </form>
+    </body>

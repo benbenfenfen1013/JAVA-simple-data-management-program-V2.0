@@ -1,13 +1,17 @@
 package com.example.web.model;
 
 public class Mission {
-    private int id;
+    private Integer id;
     private String name;
     private String country;
     private String date;
     private String result;
 
-    public Mission(int id,String name,String country, String date,String result){
+    public Mission(){
+        
+    }
+
+    public Mission(Integer id,String name,String country, String date,String result){
         this.id=id;
         this.name=name;
         this.country=country;
@@ -15,7 +19,7 @@ public class Mission {
         this.result=result;
     }
 
-    public int getId(){
+    public Integer getId(){
         return id;
     }
     public String getName(){
@@ -27,6 +31,26 @@ public class Mission {
     public String getDate(){
         return date;
     }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
     public String getResult(){
         return result;
     }

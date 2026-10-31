@@ -6,6 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
+
+
 @Controller
 public class ArchivesControler {
     ArrayList<Mission>missions = new ArrayList<>();
@@ -18,17 +21,24 @@ public class ArchivesControler {
         missions.add(new Mission(6, "火星7号", "苏联", "1973", "失败"));
         missions.add(new Mission(7, "神舟五号", "中国", "2003", "成功")); 
     }
+    Integer NextId = 8;
+
+    private Mission findById(Integer id){
+        if (id == null) return new Mission();
+        for (Mission m:missions){
+            if (id.equals(m.getId())){
+                return m;
+            }
+        }
+        return null;
+    }
+    
+
     @GetMapping ("/")
     public String redirect(){
         return "redirect:/search";
     }
 
-
-    // @GetMapping ("/search")
-    // public String home(Model model){
-    //     model.addAttribute("result",missions);
-    //     return "Website";
-    // }
     @GetMapping ("/search")
     public String list(@RequestParam(required = false) String keyword,Model model){
         ArrayList<Mission>result = new ArrayList<>();
@@ -61,4 +71,46 @@ public class ArchivesControler {
         model.addAttribute("keyword",keyword);
         return ("Website");
     }
+
+    // Mission edition = null;
+    @PostMapping("/save")
+    public String SaveEdition(Mission edition) {
+        if (edition.getId()==null){
+            edition.setId(NextId);
+            missions.add(edition);
+            NextId += 1;
+        }else{
+            Integer id = edition.getId();
+            missions.set(id-1,edition);
+        }
+        edition = null;
+        return "redirect:/search";
+    }
+
+    @GetMapping("/save")
+    public String Edition(){
+        return "form";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String StartEdit(@PathVariable Integer id,Model model){
+        model.addAttribute("id",id);
+        Mission m = findById(id);
+        model.addAttribute("mission",m);
+        return "form";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable Integer id){
+        int position = 0;
+        for (Mission m : missions){
+            if (m.getId().equals(id)){
+                missions.remove(position);
+                return "redirect:/search";
+            }
+            position += 1;
+        }
+        return "redirect:/search";
+    }
+    
 }
